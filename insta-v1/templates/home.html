@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {#    <link rel="stylesheet" href="{% static 'css/style.css'%}">#}
+    <title>{{ title }}</title>
+</head>
+<body>
+
+<!-- Search -->
+
+<form action="{% url "search-def" %}" method="get" name="ask" id="header-search-form">
+
+    <input type="search" placeholder=" Search .... " class="form-control" name="search-box">
+
+    <button id="header-search-form" type="submit"><i class="fa fa-search" aria-hidden="true">Search</i></button>
+</form>
+
+{% if search_answer %}
+    {% for acc in search_answer %}
+        <p><a href="{% url "all_post_profile" acc.id %}">{{ acc.username }}</a></p>
+
+        {% for f in cp %}
+        {% if acc == f.user_id %}
+        <p>dfsdfsdf</p>
+        {% endif %}
+        {{ f.profile_id}}
+    {% endfor %}
+    {% endfor %}
+{{ c }}
+
+
+{% else %}{% endif %}
+
+<!-- /Search -->
+
+<div style="margin-outside:25px">
+    <h1>Your user type: {{ request.user }} </h1>
+    {% if request.user.is_annonymos %}
+        <button style="background-color: lightcoral; width: 150px; height: 50px">
+            <a href="{% url "login" %}" style="color: darkred"> login or sign up</a></button>
+        <h1 style="color: orangered">خو اول لاگین کن</h1>
+
+    {% else %}
+
+        <button style="background-color: lightcoral; width: 150px; height: 50px">
+            <a href="{% url "login" %}" style="color: darkred"> login or sign up</a></button>
+
+        <button><a href="{% url "logout" %}"> log out</a></button>
+        <hr>
+        <button><a href="{% url "all_profile__class" %}"> خاطره های دوستات رو ببین</a></button>
+
+        <hr>
+        <button><a href="{% url "update-profile" %}"> پروفایل رو از اینجا به روز کن </a></button>
+        <hr>
+        <button><a href="{% url "upload_def" %}"> (def)از اتفاق های جدید بگو </a></button>
+        <hr>
+        <button><a href="{% url "upload_cls" %}">  (cls)از اتفاق های جدید بگو </a></button>
+        {% if posts %}
+        <hr>
+        <hr>
+        <h3>آنچه بر تو گذشت</h3>
+        {% for post in posts %}
+            <div style="width: 300px; height: 150px; color: orangered;background-color: #4e555b; display: block">
+                <i style="color: #FFFFFF">حاطره به اشتراک گذاشته شدهه</i> :
+                <p style="padding: 10px">{{ post.caption }}</p></div>
+            <p> محل این خاطره ات :{{ post.Location }}</p>
+            {% if qs_detail_post.photo.exist %}
+                <img src="{{ post.photo.url }}" alt="">
+            {% endif %}
+            <p> تعداد اونایی که از خاطره هات خوششون اومده :{{ post.like.count }}</p>
+
+        {% endfor %}
+
+            <div style="position: relative;display: flow">اونایی که باهاشون رفاقت داری
+            {% for profile in current_profile %}
+                            {% for f in profile.fw.all  %}
+
+                <p style="color: crimson">{{ f }}</p>
+            {% endfor %}
+            {% endfor %}
+        </div>
+
+            <div style="position: relative;display: flow">اونایی که باهات رفاقت دارن
+            {% for profile in current_profile %}
+                            {% for g in profile.fg.all  %}
+                <p style="color: crimson">{{ g }}</p>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+    {% endif %}
+
+
+</div>
+
+<hr>
+<button><a href="{% url "home" %}"> HOME </a></button>
+
+</body>
+</html>

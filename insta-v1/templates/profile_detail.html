@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>None</title>
+</head>
+<body>
+<h3> currnet User: {{ request.user.username }}</h3>
+<hr>
+<div>
+    {% if qs_detail_profile %}
+        <div>
+            <ul>
+                {#                <li><a href="{% url "post" profile.id %}"> {{ profile.user }}</a>#}
+                <li>
+                    <p> id : {{ qs_detail_profile.user_id }}</p>
+                    <p> bio : {{ qs_detail_profile.bio }}</p>
+                    <p> is active :{{ qs_detail_profile.is_active }}</p>
+                    <p> is protected_profile: {{ qs_detail_profile.protected_profile }}</p>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <hr>
+                <hr>
+                {% if posts %}
+
+
+                    {% for post in posts %}
+                        <li>
+                            <div style="padding-bottom: 10px">
+                                <a href="{% url "post_detail" post.post_profile.id post.id %}"> {{ post }} </a>
+
+                            </div>
+                        </li>
+                        <hr>
+                    {% endfor %}
+                {% else %}
+                    <h1>There is no post in posts</h1>
+                {% endif %}
+
+                <hr>
+                <hr>
+                <h2> Do you want follow: {{ qs_detail_profile.user.username }}</h2>
+                <p> Profile ID : {{ qs_detail_profile.id }}</p>
+                <p> Profile USER ID : {{ qs_detail_profile.user.id }}</p>
+            </ul>
+        </div>
+
+    {% else %}
+
+        <h1>there is no profile</h1>
+    {% endif %}
+
+    {#        {% if is_follow == True %}#}
+    {##}
+    {#        <p>ghablan follow kardi</p>#}
+    {##}
+    {#        {% else %}#}
+    {#            <button><a href="{% url "dofollow" qs_detail_profile.id %}" methods="POST"> Follow</a> </button>#}
+    {#        {% endif %}#}
+<p>{{ fw_exist }}</p>
+    {% if fw_exist %}
+
+    <p> مییخوای باهاش کات کنی ؟ 🤔 </p>
+    <form action="{% url 'dofollow' qs_detail_profile.id %}" method="POST" name="tareget">
+        {% csrf_token %}
+        <input type="submit" value="Un Follow" name="unfollow"></form>
+
+    {% else %}
+
+            <p> یخوای باهاش طرح رفاقت بریزی؟ 🤔 </p>
+    <form action="{% url 'dofollow' qs_detail_profile.id %}" method="POST" name="tareget">
+        {% csrf_token %}
+        <input type="submit" value="Follow" name="follow">
+        <input type="submit" value="Un Follow" name="unfollow"></form>
+
+    {% endif %}
+
+
+</div>
+<hr>
+<button><a href="{% url "home" %}"> HOME </a></button>
+
+</body>
+</html>

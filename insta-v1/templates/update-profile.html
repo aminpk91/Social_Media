@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="{% url "update-profile" %}" method="PUT" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="button">
+</form>
+
+<hr>
+    <button><a href="{% url "home" %}"> HOME </a></button>
+
+</body>
+</html>

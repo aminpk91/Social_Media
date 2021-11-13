@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>None</title>
+</head>
+<body>
+
+
+{% for profile in qs_profile %}
+    {% if profile.protected_profile == False %}
+        <div>
+        <ul>
+        <li><a href="{% url "all_post_profile" profile.user_id %}"> {{ profile.user }}</a>
+            <p> bio : {{ profile.bio }}</p>
+            <p> is active :{{ profile.is_active }}</p>
+            <p> is protected_profile: {{ profile.protected_profile }}</p>
+
+        </li>
+    {% elif request.user.id in profile.fg %}
+        <li><a href="{% url "all_post_profile" profile.user_id %}"> {{ profile.user }}</a>
+            <strong size="20" style="color: darkgreen">one of your friend</strong>
+            <p> id : {{ profile.id }}</p>
+            <p> user id : {{ profile.user_id }}</p>
+            <p> bio : {{ profile.bio }}</p>
+            <p> is active :{{ profile.is_active }}</p>
+            <p> is protected_profile: {{ profile.protected_profile }}</p>
+        </li>
+
+    {% endif %}
+</ul>
+</div>
+{% endfor %}
+
+<hr>
+    <button><a href="{% url "home" %}"> HOME </a></button>
+
+</body>
+</html>

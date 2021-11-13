@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{{ post_form.form_class.as_p }}
+
+{#<form action="{% url "upload" %}" method="post" enctype="multipart/form-data">#}
+<form action="{% url "upload_cls" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <input type="hidden" name="next" >
+        {#        {% for field in form %}#}
+        {{ form.as_p }}
+        {{ forms.as_p }}
+        {#        {% endfor %}#}
+{#        {% if post_form.form_class.post_profile == request.user.id %}#}
+
+            <input type="submit">
+{#        {% else %}#}
+{#            <p>فقط برای خودت میتونی پست بذاری</p>#}
+{#        {% endif %}#}
+
+        {#        <button type="submit">Post</button>#}
+    </div>
+</form>
+<hr>
+<button><a href="{% url "home" %}"> HOME </a></button>
+
+</body>
+</html>

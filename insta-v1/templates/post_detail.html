@@ -1,0 +1,83 @@
+{% load cache %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>None</title>
+</head>
+<body>
+<h3> currnet User: {{ request.user.username }}</h3>
+<hr>
+
+<div>
+    {% if qs_detail_post %}
+        <div>
+            <ul>
+                {#                <li><a href="{% url "post" profile.id %}"> {{ profile.user }}</a>#}
+                {% cache 30 qs_detail_post.pk qs_detail_post.id %}
+                    <h4>{{ qs_detail_post.post_profile.username }} می فرماید :</h4>
+                    <p> caption : {{ qs_detail_post.caption }}</p>
+                    <p> Location :{{ qs_detail_post.Location }}</p>
+                    {#                    <p> photo: {{ qs_detail_post.photo.url }} </p>#}
+                    {% if qs_detail_post.photo.exist %}
+                        <img src="{{ qs_detail_post.photo.url }}" alt="">
+                    {% endif %}
+                    <p> comment_is_active : {{ qs_detail_post.comment_is_active }}</p>
+
+                {% endcache %}
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <p style="color: firebrick"> LIKE COUNTER :{{ qs_detail_post.like.all.count }}</p>
+            </ul>
+
+
+            <div>
+                            <!-- LIKE -->
+                {% if is_like %}
+                    <p>یبار گفتی که دوستش داری😍 </p>
+                    <p style="size:5px">میخوای بگی دوستش نداری دیگه ؟</p>
+                    <form action="{% url 'like-add-post' qs_detail_post.post_profile.id qs_detail_post.id %}" method="get" name="tareget">
+                        <input type="submit" value="DisLike" name="{{ qs_detail_post.id }}">
+                    </form>
+
+                {% elif is_like == False %}
+                    <p> بگو دوستش داری 😎</p>
+                    <form action="{% url 'like-add-post' qs_detail_post.post_profile.id qs_detail_post.id %}" method="get" name="tareget">
+                        <input type="submit" value="Like" name="{{ qs_detail_post.id }}">
+                    </form>
+                {% endif %}
+
+
+            </div>
+
+
+            <div>
+                                            <!-- COMMENT -->
+
+                <form action="{% url "comment" qs_detail_post.id %}" name="yekchizi" method="post">
+                    {% csrf_token %}
+
+                    <input type="text" name="comment" placeholder="say some thing">
+                    <input type="hidden" name="post_id" value="{{ qs_detail_post.id }}">
+                    <input type="hidden" name="user_post_id" value="{{ qs_detail_post.id }}">
+                    <button type="submit" name="post_detail_id" value="{{ qs_detail_post.id }}">COMMENT</button>
+                </form>
+            </div>
+
+
+        </div>
+
+    {% else %}
+
+        <h1>there is no post</h1>
+    {% endif %}
+    <form action=""></form>
+</div>
+
+<hr>
+<button><a href="{% url "home" %}"> HOME </a></button>
+
+</body>
+</html>

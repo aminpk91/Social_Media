@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>None</title>
+</head>
+<body>
+<h3> currnet User: {{ request.user.username }}</h3>
+{% for profile in data %}
+    <div>
+        <ul>
+{#            <li> <a href="{% url "" %}"> {{ profile }}</a>#}
+            <li> <a href="{% url "all_post_profile" profile.user.id %}"> {{ profile.id }} </a>
+{#            <li> <a href="{% url "all_post_profile" profile.id %}"> {{ profile.user }}</a>#}
+
+
+                <p> id : {{ profile.id }}</p>
+                <p> bio : {{ profile.bio }}</p>
+                <p> is active :{{ profile.is_active }}</p>
+                <p> is protected_profile: {{ profile.protected_profile }}</p>
+
+            </li>
+
+        </ul>
+    </div>
+{% endfor %}
+
+<hr>
+<button><a href="{% url "home" %}"> HOME </a></button>
+
+</body>
+</html>
